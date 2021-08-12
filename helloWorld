@@ -1,0 +1,65 @@
+<template>
+  <div class="hello">
+    <div class="search-Box">
+      <el-input
+          v-model="search"
+          size="medium"
+          style="width: 100%; margin-top: 5cm"
+          placeholder="输入版本关键字搜索"></el-input>
+    </div>
+    <el-table
+        :data="tableData.filter(data => !search || data.first.toLowerCase().includes(search.toLowerCase()))"
+        border
+        stripe
+        style="width: 100%;margin-top:1cm"
+        :header-cell-style="{'text-align':'center'}"
+        :cell-style="{'text-align':'center'}">
+      <el-table-column
+          prop="version"
+          label="版本"
+          sortable
+          width="300">
+      </el-table-column>
+      <el-table-column
+          prop="version_num"
+          label="版本号(offering)"
+          width="500">
+      </el-table-column>
+      <el-table-column
+          label="软件质量报告">
+        <template slot-scope="scope">
+          <a :href="scope.row.version+'/l3'" target="_blank" class="buttonText">链接</a>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      tableData: [],
+      BASE_URL: 'http://127.0.0.1:8000/cireport/',
+      search: ''
+    }
+  },
+  mounted() {
+    this.getContents();
+  },
+  methods: {
+    getContents: function () {
+      const that = this;
+      axios.get(this.BASE_URL)
+          .then(function (res) {
+            that.tableData = res.data.data;
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+    },
+  },
+}
+</script>
