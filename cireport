@@ -1,0 +1,146 @@
+<template>
+  <div class="ci">
+    <el-row type="flex" justify="center" style="margin-top:20px">
+      <h2 class='header-h2'>22B L3 CI REPORT</h2>
+    </el-row>
+
+    <el-row :gutter="0" type="flex" justify="center" style="margin-top:20px">
+      <el-col :span="3">
+        <div>
+          <el-button @click="jump('FirstPart')">用例度量</el-button>
+        </div>
+      </el-col>
+      <el-col :span="3">
+        <div>
+          <el-button @click="jump('SecondPart')">代码检查</el-button>
+        </div>
+      </el-col>
+      <el-col :span="3">
+        <div>
+          <el-button @click="jump('ThirdPart')">软件成本</el-button>
+        </div>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20" class="grid-content" type="flex" justify="center" style="margin-top:40px">
+      <el-col :span="3">
+        <div>
+          <a href="http://3ms.huawei.com/hi/group/2691547/wiki_4939973.html">L3工程能力全景图</a>
+        </div>
+      </el-col>
+      <el-col :span="3">
+        <div>
+          <a href="http://3ms.huawei.com/hi/group/2691547/wiki_6166014.html">L3工程能力需求收集</a>
+        </div>
+      </el-col>
+      <el-col :span="3">
+        <div>
+          <a href="https://5g.rnd.huawei.com/list_markinfo/">CI邮件订阅退订链接</a>
+        </div>
+      </el-col>
+      <el-col :span="3">
+        <div>
+          <a href="https://5g.rnd.huawei.com/ci/query/22B/">CID滚动报告链接</a>
+        </div>
+      </el-col>
+    </el-row>
+
+    <el-row id="FirstPart">
+      <el-col :span="3">
+        <h2>一、用例度量</h2>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <el-col :span="3">
+        脱水版覆盖率：
+        <el-link type="warning">链接</el-link>
+      </el-col>
+      <el-col :span="3">
+        增量覆盖率：
+        <el-link type="warning">链接</el-link>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <el-col :span="6">
+        <h3>1.1、UT_IT_PCST 覆盖率汇总</h3>
+      </el-col>
+      <table_tree></table_tree>
+    </el-row>
+
+    <el-row>
+      <el-col :span="3">
+        <h3>1.2、UT 覆盖率</h3>
+      </el-col>
+      <table_tree></table_tree>
+    </el-row>
+
+    <el-row>
+      <el-col :span="3">
+        <h3>1.3、IT 覆盖率</h3>
+      </el-col>
+      <table_tree></table_tree>
+    </el-row>
+
+    <el-row>
+      <el-col :span="3">
+        <h3>1.4、PCST 覆盖率</h3>
+      </el-col>
+      <table_tree></table_tree>
+    </el-row>
+
+    <el-row id="SecondPart">
+      <el-col :span="3">
+        <h2>二、代码检查</h2>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <el-col :span="3">
+        <h3>2.1、valgrind</h3>
+      </el-col>
+      <table_tree></table_tree>
+    </el-row>
+
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+import table_tree from '@/components/table_tree.vue'
+
+export default {
+  name: 'Ci',
+  components: {
+    table_tree
+  },
+  methods: {
+    jump(domId) {
+      // 当前窗口正中心位置到指定dom位置的距离
+
+      //页面滚动了的距离
+      let height = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+
+      //指定dom到页面顶端的距离
+      let dom = document.getElementById(domId);
+      let domHeight = dom.offsetTop;
+
+      //滚动距离计算
+      var S = Number(height) - Number(domHeight);
+      if (S < 0) {
+        //下滚
+        S = Math.abs(S);
+        window.scrollBy({top: S, behavior: "smooth"});
+      } else if (S == 0) {
+        //不滚
+        window.scrollBy({top: 0, behavior: "smooth"});
+      } else {
+        //上滚
+        S = -S
+        window.scrollBy({top: S, behavior: "smooth"});
+      }
+    }
+  }
+}
+</script>
