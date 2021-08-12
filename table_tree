@@ -1,0 +1,275 @@
+<template>
+  <div>
+    <el-row :gutter="20">
+      <!-- gutter 栅格间距 -->
+      <el-col>
+        <el-row style="margin-top:20px">
+          <el-col :span="3">
+            <div>构建节点：{{ 45345323245 }}</div>
+          </el-col>
+          <el-col :span="3">
+            <div>构建时间：{{ 54643563456436 }}</div>
+          </el-col>
+          <el-col :span="3">
+            <div>构建时间：
+              <el-link type="warning">错误信息</el-link>
+            </div>
+          </el-col>
+          <el-col :span="3">
+            <div> 历史构建：
+              <el-link type="warning">链接</el-link>
+            </div>
+          </el-col>
+          <el-col :span="3">
+            <div>趋势图：
+              <el-link type="warning">链接</el-link>
+            </div>
+          </el-col>
+        </el-row>
+
+        <el-container style="height: 500px; border: 1px solid #eee">
+          <!-- 右边边栏 -->
+          <!-- 右边边栏 -->
+          <el-container>
+            <!-- 头顶容器 -->
+
+            <el-table
+                :data="tableData"
+
+                :span-method="arraySpanMethod"
+                :header-cell-style="headerStyle"
+                :row-class-name="cellStyle"
+                style="width: 100%"
+                row-key="id"
+                height="500"
+                default-expand-all
+                :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+
+
+              <el-table-column
+                  min-width="3%"
+                  align="center"
+                  prop="Field"
+                  label="领域"
+              >
+              </el-table-column>
+
+              <el-table-column
+                  min-width="3%"
+                  prop="depart"
+                  label="depart"
+              >
+              </el-table-column>
+
+              <el-table-column
+                  min-width="3%"
+                  prop="maindomain"
+                  label="domain"
+              >
+              </el-table-column>
+
+              <el-table-column
+                  min-width="3%"
+                  prop="domain"
+                  label="subdomain"
+              >
+              </el-table-column>
+
+              <el-table-column
+                  min-width="3%"
+                  prop="module"
+                  label="module"
+              >
+              </el-table-column>
+
+              <el-table-column
+                  min-width="3%"
+                  prop="module_path	"
+                  label="module_path	"
+              >
+              </el-table-column>
+
+              <el-table-column
+                  min-width="2%"
+                  prop="PL"
+                  label="PL"
+              >
+              </el-table-column>
+
+
+              <el-table-column
+                  min-width="5%"
+                  prop="LF"
+                  label="LF"
+              >
+              </el-table-column>
+
+              <el-table-column
+                  min-width="5%"
+                  prop="FNF"
+                  label="FNF">
+              </el-table-column>
+
+              <el-table-column
+                  min-width="5%"
+                  prop="BRF"
+                  label="BRF"
+              >
+              </el-table-column>
+
+              <el-table-column
+                  min-width="5%"
+                  prop="LineCoverage"
+                  label="行覆盖率"
+              >
+              </el-table-column>
+
+              <el-table-column
+                  min-width="6%"
+                  prop="FuncCoverage"
+                  label="函数覆盖率"
+              >
+              </el-table-column>
+
+              <el-table-column
+                  min-width="7%"
+                  prop="BranchCoverage"
+                  label="分支覆盖率"
+              >
+              </el-table-column>
+
+              <el-table-column
+                  min-width="5%"
+                  prop="CovInfoLink"
+                  label="覆盖报告">
+              </el-table-column>
+
+              <el-table-column
+                  min-width="7%"
+                  prop="LineCoverage_processed"
+                  label="脱水版行覆盖率">
+              </el-table-column>
+
+              <el-table-column
+                  min-width="7%"
+                  prop="CovInfoLink_processed"
+                  label="脱水版覆盖报告">
+              </el-table-column>
+
+              <el-table-column
+                  min-width="7%"
+                  prop="must_cov_must_cov"
+                  label="高危代码未覆盖">
+              </el-table-column>
+
+              <el-table-column
+                  min-width="7%"
+                  prop="FuncCovError_cov_error"
+                  label="函数未覆盖">
+              </el-table-column>
+
+              <el-table-column
+                  min-width="7%"
+                  prop="BranchCovError_cov_error<50%"
+                  label="分支覆盖<50%">
+              </el-table-column>
+
+              <el-table-column
+                  min-width="6%"
+                  prop="详细信息"
+                  label="详细信息">
+              </el-table-column>
+            </el-table>
+
+          </el-container>
+        </el-container>
+
+        <!-- </div> -->
+      </el-col>
+    </el-row>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "table_tree",
+  data() {
+    return {
+      tableData: [],
+    }
+  },
+  mounted() {
+    this.getCireport();
+  },
+  methods: {
+    getCireport: function () {
+      const that = this;
+      axios.get('http://127.0.0.1:8000/cireport/')
+          .then(function (res) {
+            that.tableData = res.data.data;
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+    },
+    // eslint-disable-next-line no-unused-vars
+    headerStyle({row, column, rowIndex, columnIndex}) {
+      // if (rowIndex === 0) {
+      //   if (columnIndex === 1 || columnIndex === 2 ||columnIndex === 3||columnIndex === 4||columnIndex === 5||columnIndex === 6) {
+      //     return {background: '#eef1f6', color: '#eef1f6'};
+      //   }
+      // }
+      // row[0].colspan=2 向右移动
+      return {background: '#eef1f6'}
+    },
+    cellStyle({row}) {
+      if (row.version === "版本") {
+        return 'color-row';
+      }
+      return '';
+    },
+    arraySpanMethod({rowIndex, columnIndex}) {
+      if (rowIndex == -1) {
+        if (columnIndex === 0) {
+          return [1, 2];
+        }
+      }
+
+    },
+  },
+};
+
+</script>
+
+
+<style>
+.el-row {
+  margin-bottom: 20px;
+}
+
+.el-col {
+  border-radius: 4px;
+}
+
+.bg-purple {
+  background: #d3dce6;
+}
+
+.el-table .color-row {
+  background: #eef1f6;
+  font-weight: 700;
+}
+
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+}
+
+.el-table td, .el-table th.is-leaf, .el-table--border, .el-table--group {
+  border-color: black;
+}
+
+.el-table--border::after, .el-table--group::after, .el-table::before {
+  background-color: black;
+}
+</style>
